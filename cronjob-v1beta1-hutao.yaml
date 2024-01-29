@@ -1,0 +1,20 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hutao-cronjob
+  namespace: infra
+spec:
+  schedule: "0 18 * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          containers:
+            - name: hutao-cronjob
+              image: your_private_docker_images:v0.01
+              args:
+                - /bin/hutao
+                - cronjob
+                - --domains=www.baidu.com,www.taobao.com
+          restartPolicy: OnFailure
